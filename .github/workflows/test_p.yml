@@ -1,0 +1,31 @@
+
+
+name: test_price
+on:
+  workflow_dispatch:
+  # push:
+jobs:
+  test_price_job:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT }}
+    steps:
+      - run: |
+          echo hello world
+          # echo ${{ secrets.test_secret }}
+          # echo done
+      - name: Checkout private tools
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.MY_REPO }} 
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+          path: tools
+      - name: list files
+        run: |
+          cd tools
+          pip install -r requirements.txt > /dev/null 2>&1
+          echo "update codes"
+          sh update_codes.sh 
+          echo "exec..."
+          python test_one.py
+          echo "done"

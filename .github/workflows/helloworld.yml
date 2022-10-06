@@ -1,0 +1,15 @@
+name: hello-world
+on:
+  workflow_dispatch:
+  # push:
+jobs:
+  hello-world-job:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT }}
+    steps:
+      - run: |
+          echo hello world
+          echo $GH_TOKEN
+          sleep 120
+          echo "done"
